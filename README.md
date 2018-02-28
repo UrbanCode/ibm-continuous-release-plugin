@@ -1,16 +1,28 @@
-# IBM Cloud DevOps
+# IBM Continuous Release
 
 **Please go to https://wiki.jenkins-ci.org/display/JENKINS/IBM+Cloud+DevOps+Plugin for the latest instructions of this plugin**
 
 ---
 
-With this Jenkins plugin, You can publish test results to DevOps Insights, add automated quality gates, and track your deployment risk.  You can also send your Jenkins job notifications to other tools in your toolchain, such as Slack and PagerDuty. To help you figure out when code was deployed, the system can add deployment messages to your Git commits and your related Git or JIRA issues. You can also view your deployments on the Toolchain Connections page.
+With this Jenkins plugin, you can run Jenkins jobs as a part of a deployment plan in IBM Continuous Release (CR) and Composite Pipeline.  You can run jobs that will trigger the creation of a version in the Composite Pipeline as well as persist properties on that version that can be used as input properties in other Jenkins builds.  This plugin will pass along important data from Git to the Composite Pipeline.
 
-This plugin provides Post-Build Actions and CLIs to support this inteigration. DevOps Insights aggregates and analyzes the results from unit tests, functional tests, code-coverage tools, static security code scans and dynamic security code scans to determine whether your code meets predefined policies at gates in your deployment process. If your code does not meet or exceed a policy, the deployment is halted, preventing risky changes from being released. You can use DevOps Insights as a safety net for your continuous delivery environment, a way to implement and improve quality standards over time, and a data visualization tool to help you understand your project's health.
+# Detailed Functionality
 
-## 1. Create a toolchain
+* **Posting job metadata to your Continuous Release instance -** As you create and edit jobs, the metadata for the jobs will uploaded including the names of the jobs as well as the names of parameters.  This is done so that the jobs can be invoked from the Continuous Release service within the CR security model.
 
-Before you can integrate DevOps Insights with a Jenkins project, you must create a toolchain. A *toolchain* is a set of tool integrations that support development, deployment, and operations tasks. The collective power of a toolchain is greater than the sum of its individual tool integrations. Toolchains are part of the IBM Bluemix&reg; Continuous Delivery service. To learn more about the Continuous Delivery service, see [its documentation](https://console.ng.bluemix.net/docs/services/ContinuousDelivery/cd_about.html).
+* **Invoke jobs from Continuous Release -** An authenticated, encrypted persistent connection is established with the CR service so that you can trigger off jobs and pipelines with no special firewall configuration.
+
+* **Updates status of running jobs -** You will receive instant feedback in the CR service with links to the execution.
+
+* **Job Executions can create versions in Composite Pipeline -** You will have the option to select Jenkins jobs as "input jobs" which will create a version with special properties that you can specify.
+
+* **Detects quality data provided by IBM Deployment Risk Analytics -** If you use the capabilities found in the IBM Cloud DevOps plugin to provide data to IBM DRA, then this plugin will forward that data to your composite pipeline to visualize quality data across your whole suite of applications.
+
+# Installation
+
+## 1. Generate a Sync Id and Sync Token
+
+Navigate to the [Getting Started page] of the Continuous Release service and at the bottom of the page is a (https://console.bluemix.net/devops/continuous-release/getting-started).
 
 1. To create a toolchain, go to the [Create a Toolchain page](https://console.ng.bluemix.net/devops/create) and follow the instructions on that page.
 

@@ -129,7 +129,6 @@ public class CloudWorkListener implements IWorkListener {
                     log.info("Item Found (3): " + item);
                 }
 
-                System.out.println("HEEEEEEEYYYYYYY------------------------->>>>");
                 List<ParameterValue> parametersList = generateParamList(incomingJob, getParameterTypeMap(item));
 
                 JSONObject returnProps = new JSONObject();

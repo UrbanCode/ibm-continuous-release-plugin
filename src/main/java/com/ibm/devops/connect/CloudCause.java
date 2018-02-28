@@ -21,8 +21,8 @@ public class CloudCause extends Cause {
     }
 
     private String workId;
-    private JSONObject returnProps;
-    private List<JSONObject> steps = new ArrayList<JSONObject>();
+    private String returnProps;
+    private List<String> steps = new ArrayList<String>();
 
     private SourceData sourceData;
     private DRAData draData;
@@ -33,7 +33,7 @@ public class CloudCause extends Cause {
 
     public CloudCause(String workId, JSONObject returnProps) {
         this.workId = workId;
-        this.returnProps = returnProps;
+        this.returnProps = returnProps.toString();
         this.createdFromCR = true;
     }
 
@@ -52,7 +52,7 @@ public class CloudCause extends Cause {
         obj.put("status", status);
         obj.put("message", message);
         obj.put("isFatal", isFatal);
-        steps.add(obj);
+        steps.add(obj.toString());
     }
 
     public void setSourceData(SourceData sourceData) {
@@ -91,13 +91,15 @@ public class CloudCause extends Cause {
         if (steps.size() == 0) {
             addStep(name, status, message, isFatal);
         } else {
-            JSONObject obj = steps.get(steps.size() - 1);
+            JSONObject obj = JSONObject.fromObject(steps.get(steps.size() - 1));
             if(name != null) {
                 obj.put("name", name);
             }
             obj.put("status", status);
             obj.put("message", message);
             obj.put("isFatal", isFatal);
+
+            steps.set(steps.size() - 1, obj.toString());
         }
     }
 
@@ -106,13 +108,13 @@ public class CloudCause extends Cause {
     }
 
     public JSONObject getReturnProps() {
-        return returnProps;
+        return JSONObject.fromObject(returnProps);
     }
 
     public JSONArray getStepsArray() {
         JSONArray result = new JSONArray();
-        for (JSONObject obj : steps) {
-            result.add(obj);
+        for (String objString : steps) {
+            result.add(JSONObject.fromObject(objString));
         }
 
         return result;

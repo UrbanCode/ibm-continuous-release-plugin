@@ -12,8 +12,6 @@ import java.util.List;
 public class TriggerJob extends AbstractSecuredAction {
 
     protected void run(AbstractSecuredAction.ParamObj paramObj) {
-        System.out.println("Running Operation As Another USER!!!!!!");
-
         TriggerJobParamObj triggerJobParamObj = (TriggerJobParamObj)paramObj;
 
         CloudWorkListener cwl = new CloudWorkListener();

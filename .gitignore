@@ -13,6 +13,7 @@ work
 *.jar
 *.war
 *.ear
+!cloud-connect-java-1.0.920563.jar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

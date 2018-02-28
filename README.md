@@ -22,73 +22,25 @@ With this Jenkins plugin, you can run Jenkins jobs as a part of a deployment pla
 
 ## 1. Generate a Sync Id and Sync Token
 
-Navigate to the [Getting Started page] of the Continuous Release service and at the bottom of the page is a (https://console.bluemix.net/devops/continuous-release/getting-started).
+Navigate to the [Getting Started page](https://console.bluemix.net/devops/continuous-release/getting-started) of the Continuous Release service and at the bottom of the page, click 'Setup' under the Jenkins section to open the "Setup Jenkins Integration" dialog box.
 
-1. To create a toolchain, go to the [Create a Toolchain page](https://console.ng.bluemix.net/devops/create) and follow the instructions on that page.
+![Getting Started Page](screenshots/getting-started-page.png)
 
-2. After you create the toolchain, add DevOps Insights to it. For instructions, see the [DevOps Insights documentation](https://console.ng.bluemix.net/docs/services/DevOpsInsights/index.html).
+In the dialog box provide a logical name that represents the Jenkins instance that you are attempting to connect.  This will generate a Sync Id and Sync Token pair.  When the time comes this dialog provides "Copy to Clipboard" button on these fields.
 
-## 2. (optional) Configure Jenkins jobs for Deployment Risk dashboard
+![Getting Started Dialog](screenshots/getting-started-dialog.png)
 
-If you would like to make use Deployment Risk dashboard, follow these steps.
+## 2. Install this plugin on your Jenkins instance
 
-After the plugin is installed, you can integrate DevOps Insights into your Jenkins project.
+Navigate to the plugins page on your Jenkins instance by clicking `Manage Jenkins > Manage Plugins > Available (tab)` and search for `IBM Continuous Release`.  When located install the plugin and restart your instance when possible.
 
+If the plugin is not available in the Jenkins publically hosted plugins, please download [ibm-continuous-release.hpi](http://public.dhe.ibm.com/software/products/UrbanCode/plugins/) and upload it to your Jenkins instance by navigating to the Advanced tab on the plugins page.
 
-### General workflow
+## 3. Populate Jenkins Configuration with Sync Id, Sync Token, and Jenkins Credentials
 
-1. Open the configuration of any jobs that you have, such as build, test, or deployment.
+Navigate to the Jenkins configuration page `Manage Jenkins > Configure System > IBM Continuous Release (section)`.  Under the IBM Continuous Release section paste the Sync ID and Sync Token values from Step 1 above.  Please add a credentials entry for a Jenkins user on whose behalf this plugin may access your Jenkins items.  Please `Apply` or save the values before clicking the `Test Connection` button to confirm your connection to the CR serivce.  Upon successful connection, your data will be posted to your IBM Bluemix Organization.
 
-2. Add a post-build action for the corresponding type:
-
-   * For build jobs, use **Publish build information to IBM Cloud DevOps**.
-
-   * For test jobs, use **Publish test result to IBM Cloud DevOps**.
-
-   * For deployment jobs, use **Publish deployment information to IBM Cloud DevOps**.
-
-3. Complete the required fields:
-
-   * From the **Credentials**, select your Bluemix ID and password. If they are not saved in Jenkins, click **Add** to add and save them. Click **Test Connection** to test your connection with Bluemix.
-
-   * In the **Build Job Name** field, specify your build job's name exactly as it is in Jenkins. If the build occurs with the test job, leave this field empty. If the build job occurs outside of Jenkins, select the **Builds are being done outside of Jenkins** check box and specify the build number and build URL.
-
-   * For the environment, if the tests are running in build stage, select only the build environment. If the tests are running in the deployment stage, select the deploy environment and specify the environment name. Two values are supported: `STAGING` and `PRODUCTION`.
-
-   * For the **Result File Location** field, specify the result file's location. If the test doesn't generate a result file, leave this field empty. The plugin uploads a default result file that is based on the status of current test job.
-
-   **Example configurations**
-
-   ![Upload Build Information](https://github.com/IBM/ibm-cloud-devops/blob/master/screenshots/Upload-Build-Info.png "Publish Build Information to DRA")
-
-   ![Upload Test Result](https://github.com/IBM/ibm-cloud-devops/blob/master/screenshots/Upload-Test-Result.png "Publish Test Result to DRA")
-
-   ![Upload Deployment Information](https://github.com/IBM/ibm-cloud-devops/blob/master/screenshots/Upload-Deployment-Info.png "Publish Deployment Information to DRA")
-
-4. (Optional): If you want to use DevOps Insights policy gates to control a downstream deploy job, add a post build action, **IBM Cloud DevOps Gate**. Choose a policy and specify the scope of the test results. To allow the policy gates to prevent downstream deployments, select the **Fail the build based on the policy rules** check box. The following image shows an example configuration:
-
-    ![DevOps Insights Gate](https://github.com/IBM/ibm-cloud-devops/blob/master/screenshots/DRA-Gate.png "DevOps Insights Gate")
-
-5. Run your Jenkins Build job.
-
-6. Go to the [IBM Bluemix DevOps](https://console.ng.bluemix.net/devops), select your toolchain and click on DevOps Insights card to view Deployment Risk dashboard.
-
-
-## 3. (Optional) Configure Jenkins jobs to send notifications to tools in your toolchain (e.g., Slack, PagerDuty), and enable traceability
-
-Configure your Jenkins jobs to send notifications to tools integrated to your toolchain (e.g., Slack, PagerDuty),
-and use traceability to track code deployments through tags, labels, and comments in your Git repository (repo).
-
-Both Freestyle projects and Pipeline are supported.
-
-Detailed instructions are available in the [Bluemix Docs](https://console.ng.bluemix.net/docs/services/ContinuousDelivery/toolchains_integrations.html#jenkins).
-
-
-   **Example configurations**
-  * Configuring the IBM_CLOUD_DEVOPS_WEBHOOK_URL for job configurations: ![Set IBM_CLOUD_DEVOPS_WEBHOOK_URL Parameter](https://github.com/IBM/ibm-cloud-devops/blob/master/screenshots/Set-Parameterized-Webhook.png "Set Parameterized WebHook")
-  * Configuring post-build actions for job notifications: ![Post-build Actions for WebHook notification](https://github.com/IBM/ibm-cloud-devops/blob/master/screenshots/PostBuild-WebHookNotification.png "Configure WebHook Notification in Post-build Actions")
-  * Configuring post-build actions to track deployment of code changes: ![Post-build Actions to track deployment of code changes](https://github.com/IBM/ibm-cloud-devops/blob/master/screenshots/track-deployment-of-code-changes.png "Configure WebHook Notification in Post-build Actions")
-
+![Global Config Page](screenshots/global-config-page.png)
 
 ## License
 

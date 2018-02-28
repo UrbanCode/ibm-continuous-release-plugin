@@ -26,6 +26,10 @@ public class ConnectComputerListener extends ComputerListener {
 
     private static CloudSocketComponent cloudSocketInstance;
 
+    private static void setCloudSocketComponent( CloudSocketComponent comp ) {
+        cloudSocketInstance = comp;
+    }
+
     @Override
     public void onOnline(Computer c) {
         String url = getConnectUrl();
@@ -38,7 +42,7 @@ public class ConnectComputerListener extends ComputerListener {
             cloudSocketInstance.disconnect();
         }
 
-        cloudSocketInstance = new CloudSocketComponent(listener, url);
+        ConnectComputerListener.setCloudSocketComponent(new CloudSocketComponent(listener, url));
 
         try {
         	log.info(logPrefix + "Connecting to Cloud Services...");

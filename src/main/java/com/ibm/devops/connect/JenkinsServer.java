@@ -43,7 +43,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.nio.charset.Charset;
 /**
  * Jenkins server
  */
@@ -189,7 +189,7 @@ public class JenkinsServer {
     private static void createFolder(String folderName) {
     	log.debug(logPrefix + "createFolder - Creating folder " + folderName);
     	try {
-    		Jenkins.getInstance().createProjectFromXML(folderName, new ByteArrayInputStream(FOLDER_SPEC.getBytes()));
+    		Jenkins.getInstance().createProjectFromXML(folderName, new ByteArrayInputStream(FOLDER_SPEC.getBytes(Charset.forName("UTF-8"))));
     		log.debug(logPrefix + folderName + " was created successfully!");
     	} catch (Exception e) {
     		// folder might be existing
@@ -201,7 +201,7 @@ public class JenkinsServer {
     private static void createJobInFolder(Folder targetFolder, String jobName, String source) {
     	log.debug(logPrefix + "createItem - Creating job " + jobName);
     	try {
-    		targetFolder.createProjectFromXML(jobName, new ByteArrayInputStream(source.getBytes()));
+    		targetFolder.createProjectFromXML(jobName, new ByteArrayInputStream(source.getBytes(Charset.forName("UTF-8"))));
     		log.debug(logPrefix + jobName + " was created successfully!");
     	} catch (Exception e) {
     		log.error(logPrefix + jobName + " was not created.");

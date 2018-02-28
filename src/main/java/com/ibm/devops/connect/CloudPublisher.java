@@ -301,8 +301,6 @@ public class CloudPublisher  {
     }
 
     private boolean updateIntegrationServerUrl(JSONObject payload, String newServerUrl) {
-    	String localLogPrefix= logPrefix + "updateIntegrationServerUrl ";
-
         payload.put("serverUrl", newServerUrl);
 
         return (updateIntegration(payload));

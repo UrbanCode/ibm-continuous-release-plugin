@@ -88,11 +88,13 @@ public class CloudGraphListener implements GraphListener {
     }
 
     private CloudCause getCloudCause(WorkflowRun workflowRun) {
-        List<Cause> causes = workflowRun.getCauses();
+        if (workflowRun != null) {
+            List<Cause> causes = workflowRun.getCauses();
 
-        for(Cause cause : causes) {
-            if (cause instanceof CloudCause ) {
-                return (CloudCause)cause;
+            for(Cause cause : causes) {
+                if (cause instanceof CloudCause ) {
+                    return (CloudCause)cause;
+                }
             }
         }
 

@@ -46,44 +46,16 @@ public class ContinuousReleaseProperties extends Builder implements SimpleBuildS
 
     private Map<String, String> properties;
 
-    /**
-     * Constructor used for data-binding fields from the corresponding
-     * config.jelly
-     *
-     * @param siteName
-     *            The profile name of the UrbanDeploy site
-     * @param component
-     *            The object holding the Create Version Block structure
-     * @param deploy
-     *            The object holding the Deploy Block structure
-     */
     @DataBoundConstructor
     public ContinuousReleaseProperties(
             Map<String, String> properties) {
         this.properties = properties;
     }
 
-    /*
-     * Accessors and mutators required for data-binding access
-     */
-
     public Map<String, String> getProperties() {
         return this.properties;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param build
-     * @param launcher
-     * @param listener
-     * @return A boolean to represent if the build can continue
-     * @throws InterruptedException
-     * @throws java.io.IOException
-     *             {@inheritDoc}
-     * @see hudson.tasks.BuildStep#perform(hudson.model.Build, hudson.Launcher,
-     *      hudson.model.TaskListener)
-     */
     @Override
     public void perform(final Run<?, ?> build, FilePath workspace, Launcher launcher, final TaskListener listener)
             throws AbortException, InterruptedException, IOException {
@@ -99,11 +71,6 @@ public class ContinuousReleaseProperties extends Builder implements SimpleBuildS
         }
     }
 
-    /**
-     * This class holds the metadata for the Publisher and allows it's data
-     * fields to persist
-     *
-     */
     @Extension
     public static class ContinuousReleasePropertiesDescriptor extends BuildStepDescriptor<Builder> {
 
@@ -111,29 +78,11 @@ public class ContinuousReleaseProperties extends Builder implements SimpleBuildS
             load();
         }
 
-        /**
-         * Return the location of the help document for this builder.
-         * <p/>
-         * {@inheritDoc}
-         *
-         * @return {@inheritDoc}
-         * @see hudson.model.Descriptor#getHelpFile()
-         */
         @Override
         public String getHelpFile() {
             return "/plugin/ibm-ucdeploy-build-steps/publish.html";
         }
 
-        /**
-         * Bind data fields to user defined values {@inheritDoc}
-         *
-         * @param req
-         *            {@inheritDoc}
-         * @param formData
-         *            {@inheritDoc}
-         * @return {@inheritDoc}
-         * @see hudson.model.Descriptor#configure(org.kohsuke.stapler.StaplerRequest)
-         */
         @Override
         public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
             req.bindJSON(this, formData);
@@ -151,13 +100,6 @@ public class ContinuousReleaseProperties extends Builder implements SimpleBuildS
             return "Pass Properties to Continuous Release Version";
         }
 
-        /**
-         * {@inheritDoc}
-         *
-         * @param jobType
-         *            {@inheritDoc}
-         * @return {@inheritDoc}
-         */
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> jobType) {
             return true;

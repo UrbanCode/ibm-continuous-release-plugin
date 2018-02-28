@@ -38,6 +38,10 @@ public class CloudSocketComponent {
 
     private static boolean otherIntegrationExists = false;
 
+    private static void setOtherIntegrationsExists(boolean exists) {
+        otherIntegrationExists = exists;
+    }
+
     public CloudSocketComponent(IWorkListener workListener, String cloudUrl) {
         this.workListener = workListener;
         this.cloudUrl = cloudUrl;
@@ -73,13 +77,13 @@ public class CloudSocketComponent {
             if(cloudPublisher.doesOtherIntegrationExist()) {
                 log.warn(logPrefix + "These credentials have been used by another Jenkins Instance.  Please generate another Sync Id and provide those credentials here.");
                 shouldConnect = false;
-                otherIntegrationExists = true;
+                CloudSocketComponent.setOtherIntegrationsExists(true);
             } else {
                 // Create Integration
                 cloudPublisher.createIntegration();
             }
         } else {
-            otherIntegrationExists = false;
+                CloudSocketComponent.setOtherIntegrationsExists(false);
         }
 
         if(shouldConnect) {

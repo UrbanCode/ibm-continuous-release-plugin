@@ -137,11 +137,11 @@ abstract class AbstractJenkinsStatus {
                 if (action instanceof BuildData) {
                     Map<String,Build> branchMap = ((BuildData)action).getBuildsByBranchName();
 
-                    for(String branchName : branchMap.keySet()) {
-                        Build gitBuild = branchMap.get(branchName);
+                    for(Map.Entry<String, Build> branchEntry : branchMap.entrySet()) {
+                        Build gitBuild = branchEntry.getValue();
 
                         if (gitBuild.getBuildNumber() == run.getNumber()) {
-                            SourceData sourceData = new SourceData(branchName, gitBuild.getSHA1().getName(), "GIT");
+                            SourceData sourceData = new SourceData(branchEntry.getKey(), gitBuild.getSHA1().getName(), "GIT");
                             sourceData.populateCommitMessage(taskListener, envVars, getWorkspaceFilePath(), gitBuild);
 
                             cloudCause.setSourceData(sourceData);

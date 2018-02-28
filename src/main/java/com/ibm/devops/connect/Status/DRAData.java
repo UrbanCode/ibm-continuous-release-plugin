@@ -15,10 +15,6 @@ public class DRAData {
     private String decision;
     private String riskDahboardLink;
 
-
-    private String type;
-    private Set<String> remoteUrls;
-
     public DRAData() {
     }
 
@@ -28,6 +24,10 @@ public class DRAData {
 
     public void setOrgName (String orgName) {
         this.orgName = orgName;
+    }
+
+    public String getOrgName () {
+        return orgName;
     }
 
     public void setToolchainName(String toolchainName) {

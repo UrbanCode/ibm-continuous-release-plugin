@@ -31,6 +31,7 @@ import org.jenkinsci.plugins.workflow.graph.FlowNode;
 import org.jenkinsci.plugins.workflow.graph.FlowGraphWalker;
 
 import org.jenkinsci.plugins.workflow.actions.WorkspaceAction;
+import org.jenkinsci.plugins.workflow.actions.ErrorAction;
 
 /**
  * Jenkins server
@@ -69,7 +70,6 @@ public class JenkinsPipelineStatus extends AbstractJenkinsStatus {
             if (n.getClass().getName().equals("org.jenkinsci.plugins.workflow.cps.nodes.StepStartNode")) {
                 WorkspaceAction action = n.getAction(WorkspaceAction.class);
                 if(action != null) {
-                    String node = action.getNode().toString();
                     String workspace = action.getPath().toString();
                     FilePath result = new FilePath(new File(workspace));
 
@@ -97,7 +97,13 @@ public class JenkinsPipelineStatus extends AbstractJenkinsStatus {
                     cloudCause.addStep(null, JobStatus.success.toString(), "Stage is successful", false);
                 }
             } else {
-                cloudCause.updateLastStep(null, JobStatus.failure.toString(), node.getError().getDisplayName(), false);
+                ErrorAction errorObj = node.getError();
+                String displayText = "Unknown Error";
+
+                if( errorObj != null ) {
+                    displayText = errorObj.getDisplayName();
+                }
+                cloudCause.updateLastStep(null, JobStatus.failure.toString(), displayText, false);
             }
         }
     }

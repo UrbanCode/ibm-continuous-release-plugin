@@ -78,7 +78,7 @@ public class DevOpsGlobalConfiguration extends GlobalConfiguration {
         return credentialsId;
     }
 
-    public void setCredentialsId(String crendentialsId) {
+    public void setCredentialsId(String credentialsId) {
         this.credentialsId = credentialsId;
         save();
     }

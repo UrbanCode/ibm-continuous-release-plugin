@@ -73,15 +73,15 @@
 
   <developers>
     <developer>
-      <id>aberk</id>
+      <id>aberkIBM</id>
       <name>Andy Berkebile</name>
       <email>aberkeb1@us.ibm.com</email>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:git://git@github.com/jenkinsci/ibm-cloud-devops-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/ibm-cloud-devops-plugin.git</developerConnection>
+    <connection>scm:git:git://git@github.com/jenkinsci/ibm-continuous-release-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/ibm-continuous-release-plugin.git</developerConnection>
     <tag>1.1.0</tag>
   </scm>
 

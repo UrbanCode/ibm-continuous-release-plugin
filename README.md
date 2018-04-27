@@ -1,7 +1,5 @@
 # IBM Continuous Release
 
-**Please go to https://wiki.jenkins-ci.org/display/JENKINS/IBM+Cloud+DevOps+Plugin for the latest instructions of this plugin**
-
 ---
 
 With this Jenkins plugin, you can run Jenkins jobs as a part of a deployment plan in IBM Continuous Release (CR) and Composite Pipeline.  You can run jobs that will trigger the creation of a version in the Composite Pipeline as well as persist properties on that version that can be used as input properties in other Jenkins builds.  This plugin will pass along important data from Git to the Composite Pipeline.

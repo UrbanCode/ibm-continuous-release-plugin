@@ -10,6 +10,7 @@ package com.ibm.devops.connect;
 
 import hudson.slaves.ComputerListener;
 import hudson.model.Computer;
+import jenkins.model.Jenkins.MasterComputer;
 import hudson.Extension;
 
 import org.slf4j.Logger;
@@ -32,23 +33,25 @@ public class ConnectComputerListener extends ComputerListener {
 
     @Override
     public void onOnline(Computer c) {
-        String url = getConnectUrl();
+        if ( c instanceof jenkins.model.Jenkins.MasterComputer ) {
+            logPrefix= logPrefix + "onOnline ";
+            String url = getConnectUrl();
 
-    	logPrefix= logPrefix + "onOnline ";
+            CloudWorkListener listener = new CloudWorkListener();
 
-        CloudWorkListener listener = new CloudWorkListener();
+            if(cloudSocketInstance != null && cloudSocketInstance.connected()) {
+                cloudSocketInstance.disconnect();
+            }
 
-        if(cloudSocketInstance != null && cloudSocketInstance.connected()) {
-            cloudSocketInstance.disconnect();
-        }
+            ConnectComputerListener.setCloudSocketComponent(new CloudSocketComponent(listener, url));
 
-        ConnectComputerListener.setCloudSocketComponent(new CloudSocketComponent(listener, url));
+            try {
+                log.info(logPrefix + "Connecting to Cloud Services...");
+                getCloudSocketInstance().connectToCloudServices();
+            } catch (Exception e) {
+                log.error(logPrefix + "Exception caught while connecting to Cloud Services: " + e);
+            }
 
-        try {
-        	log.info(logPrefix + "Connecting to Cloud Services...");
-            getCloudSocketInstance().connectToCloudServices();
-        } catch (Exception e) {
-            log.error(logPrefix + "Exception caught while connecting to Cloud Services: " + e);
         }
     }
 

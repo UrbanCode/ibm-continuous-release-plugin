@@ -98,6 +98,9 @@ public class CloudWorkListener implements IWorkListener {
         JSONArray incomingJobs = JSONArray.fromObject(args[0].toString());
 
         for(int i=0; i < incomingJobs.size(); i++) {
+
+            WorkStatus workStatus = WorkStatus.started;
+
             JSONObject incomingJob = incomingJobs.getJSONObject(i);
             // sample job creation request from a toolchain
             if (incomingJob.has("jobType") && "new".equalsIgnoreCase(incomingJob.get("jobType").toString())) {
@@ -151,9 +154,6 @@ public class CloudWorkListener implements IWorkListener {
                 } else if (item instanceof WorkflowJob) {
                     WorkflowJob workflowJob = (WorkflowJob)item;
 
-                    System.out.println("\n\n\t\t\t&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                    System.out.println(parametersList);
-
                     QueueTaskFuture queuedTask = workflowJob.scheduleBuild2(0, new ParametersAction(parametersList), new CauseAction(cloudCause));
 
                     if (queuedTask == null) {
@@ -172,11 +172,13 @@ public class CloudWorkListener implements IWorkListener {
                     JSONObject statusUpdate = erroredJobStatus.generateErrorStatus(errorMessage);
                     CloudPublisher cloudPublisher = new CloudPublisher();
                     cloudPublisher.uploadJobStatus(statusUpdate);
+
+                    workStatus = WorkStatus.failed;
                 }
 
             }
 
-            sendResult(socket, incomingJobs.getJSONObject(i).get("id").toString(), WorkStatus.started, "This work has been started");
+            sendResult(socket, incomingJobs.getJSONObject(i).get("id").toString(), workStatus, "This work has been started");
         }
 
     }
@@ -196,11 +198,6 @@ public class CloudWorkListener implements IWorkListener {
 
     private List<ParameterValue> generateParamList (JSONObject incomingJob, Map<String, String> typeMap) {
         ArrayList<ParameterValue> result = new ArrayList<ParameterValue>();
-
-        System.out.println("000000000000000000000000000000000");
-        System.out.println(incomingJob.toString());
-        System.out.println(typeMap.toString());
-        System.out.println("000000000000000000000000000000000");
 
         if(incomingJob.has("props")) {
             JSONObject props = incomingJob.getJSONObject("props");

@@ -57,18 +57,20 @@ abstract class AbstractJenkinsStatus {
     protected Boolean isPaused;
 
     protected void getOrCreateCrAction() {
-        // Get CrAction
-        List<Action> actions = run.getActions();
-        for(Action action : actions) {
-            if (action instanceof CrAction) {
-                crAction = (CrAction)action;
+        if (run != null) {
+            // Get CrAction
+            List<Action> actions = run.getActions();
+            for(Action action : actions) {
+                if (action instanceof CrAction) {
+                    crAction = (CrAction)action;
+                }
             }
-        }
 
-        // If not, create crAction
-        if (crAction == null) {
-            crAction = new CrAction();
-            run.addAction(crAction);
+            // If not, create crAction
+            if (crAction == null) {
+                crAction = new CrAction();
+                run.addAction(crAction);
+            }
         }
     }
 
